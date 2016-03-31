@@ -1,24 +1,23 @@
 package be.ndsmyter.countexperiment;
 
-import java.util.Locale;
-
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final static String TAG = "CE";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections. We use a
@@ -95,10 +94,13 @@ public class MainActivity extends AppCompatActivity {
             Locale l = Locale.getDefault();
             switch (position) {
                 case 0:
+                    Log.i(TAG, "Section 1");
                     return getString(R.string.title_section1).toUpperCase(l);
                 case 1:
+                    Log.i(TAG, "Section 2");
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2:
+                    Log.i(TAG, "Section 3");
                     return getString(R.string.title_section3).toUpperCase(l);
             }
             return null;
