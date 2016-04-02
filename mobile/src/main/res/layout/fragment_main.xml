@@ -9,7 +9,7 @@
 				tools:context=".SectionFragment">
 
 	<TextView
-			android:id="@+id/section_label"
+			android:id="@+id/title_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:textSize="32sp"
@@ -19,7 +19,7 @@
 			android:id="@+id/count_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_below="@+id/section_label"
+			android:layout_below="@+id/title_label"
 			android:textSize="40sp"
 			android:gravity="center"
 			android:text="0"/>
