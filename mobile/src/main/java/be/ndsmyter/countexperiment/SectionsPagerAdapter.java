@@ -14,17 +14,25 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = "CE";
 
-    public SectionsPagerAdapter(FragmentManager fm) {
-        super(fm);
-    }
+    private List<FragmentModel> models;
 
     private List<SectionFragment> fragmentList = new ArrayList<SectionFragment>();
+
+    public SectionsPagerAdapter(FragmentManager fm) {
+        super(fm);
+
+        // Add some models, and in the meantime some pages
+        models = new ArrayList<FragmentModel>();
+        models.add(new FragmentModel("Section 1"));
+        models.add(new FragmentModel("Section 2"));
+        models.add(new FragmentModel("Section 3"));
+    }
 
     @Override
     public Fragment getItem(int position) {
         while (position >= fragmentList.size()) {
             // Instantiate a new section fragment
-            fragmentList.add(SectionFragment.newInstance(fragmentList.size() + 1));
+            fragmentList.add(SectionFragment.newInstance(models.get(position)));
         }
         return fragmentList.get(position);
     }
@@ -32,7 +40,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // The size is asked first. And using the size, the correct number of items is requested so they can be shown on the screen.
-        return 3;
+        return models.size();
     }
 
     @Override

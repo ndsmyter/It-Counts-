@@ -8,42 +8,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import be.ndsmyter.countexperiment.common.Listener;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class SectionFragment extends Fragment implements View.OnClickListener {
+public class SectionFragment extends Fragment implements View.OnClickListener, Listener {
 
     private static final String TAG = "CE";
 
     /**
      * The fragment argument representing the section number for this fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
-
-    private int touchedPoints = 1;
-
-    private int upKeyPoints = 10;
-
-    private int downKeyPoints = 100;
-
-    private int touched = 0;
-
-    private int upKey = 0;
-
-    private int downKey = 0;
+    private static final String ARG_FRAGMENT_MODEL = "fragment_model";
 
     private View rootView;
 
-    private String title;
+    private FragmentModel fragmentModel;
 
     /**
      * Returns a new instance of this fragment for the given section number.
      */
-    public static SectionFragment newInstance(int sectionNumber) {
+    public static SectionFragment newInstance(FragmentModel fragmentModel) {
         SectionFragment fragment = new SectionFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putSerializable(ARG_FRAGMENT_MODEL, fragmentModel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,11 +46,16 @@ public class SectionFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int sectionNumber = this.getArguments().getInt(ARG_SECTION_NUMBER);
+        this.fragmentModel = (FragmentModel) this.getArguments().getSerializable(ARG_FRAGMENT_MODEL);
+        if (this.fragmentModel == null) {
+            Log.e(TAG, "We're missing the model for this view");
+            return null;
+        }
+        this.fragmentModel.addListener(this);
         this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnClickListener(this);
-        setTitle("Section " + sectionNumber);
-        setText(R.id.count_label, "" + touched);
+        updateTitle();
+        updateCount();
         return rootView;
     }
 
@@ -81,8 +75,7 @@ public class SectionFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        this.touched++;
-        updateCount();
+        this.fragmentModel.addTouched();
     }
 
     /**
@@ -93,20 +86,11 @@ public class SectionFragment extends Fragment implements View.OnClickListener {
      */
     public boolean onKeyDown(int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            this.downKey++;
-            updateCount();
+            this.fragmentModel.addKeyDown();
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            this.upKey++;
-            updateCount();
+            this.fragmentModel.addKeyUp();
         }
         return false;
-    }
-
-    /**
-     * Update the count on the screen.
-     */
-    private void updateCount() {
-        setText(R.id.count_label, "" + (touched * touchedPoints + downKey * downKeyPoints + upKey * upKeyPoints));
     }
 
     /**
@@ -115,16 +99,26 @@ public class SectionFragment extends Fragment implements View.OnClickListener {
      * @return the title of the fragment
      */
     public String getTitle() {
-        return title;
+        return fragmentModel.getTitle();
+    }
+
+    /**
+     * Update the count on the screen.
+     */
+    private void updateCount() {
+        setText(R.id.count_label, "" + this.fragmentModel.getCount());
     }
 
     /**
      * Set the new title of this fragment.
-     *
-     * @param title the new title of the fragment
      */
-    public void setTitle(String title) {
-        this.title = title;
-        setText(R.id.title_label, title);
+    public void updateTitle() {
+        setText(R.id.title_label, fragmentModel.getTitle());
+    }
+
+    @Override
+    public void notifyChanged() {
+        updateTitle();
+        updateCount();
     }
 }
