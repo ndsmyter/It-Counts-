@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Pass on the key to the children
+        return ((SectionFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())).onKeyDown(keyCode);
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
      */
@@ -73,11 +82,15 @@ public class MainActivity extends AppCompatActivity {
             super(fm);
         }
 
+        private List<SectionFragment> fragmentList = new ArrayList<SectionFragment>();
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return SectionFragment.newInstance(position + 1);
+            while (position >= fragmentList.size()) {
+                fragmentList.add(SectionFragment.newInstance(fragmentList.size() + 1));
+            }
+            return fragmentList.get(position);
         }
 
         @Override
