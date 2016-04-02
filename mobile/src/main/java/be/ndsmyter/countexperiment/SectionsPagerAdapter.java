@@ -23,9 +23,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         // Add some models, and in the meantime some pages
         models = new ArrayList<FragmentModel>();
-        models.add(new FragmentModel("Section 1"));
-        models.add(new FragmentModel("Section 2"));
-        models.add(new FragmentModel("Section 3"));
+        models.add(new FragmentModel("Counter 1"));
+        models.add(new FragmentModel("Counter 2"));
+        models.add(new FragmentModel("Counter 3"));
     }
 
     @Override

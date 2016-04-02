@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditTextPreference android:title="Counter Name"
+						android:key="counterName"
+						android:summary="The name of the counter"/>
+	<PreferenceCategory android:title="@string/pref_cat_buttons">
+		<EditTextPreference android:title="Screen touch"
+							android:inputType="number"
+							android:summary="How much will be added on a screen touch"
+							android:key="screenTouch"/>
+		<EditTextPreference android:title="Volume Up"
+							android:inputType="number"
+							android:summary="How much will be added on volume up"
+							android:key="volumeUp"/>
+		<EditTextPreference android:title="Volume Down"
+							android:inputType="number"
+							android:summary="How much will be added on volume down"
+							android:key="volumeDown"/>
+	</PreferenceCategory>
+	<CheckBoxPreference android:title="Allow only integers"
+						android:defaultValue="true"
+						android:summary="Allow only integers"
+						android:key="onlyIntegers"/>
+</PreferenceScreen>

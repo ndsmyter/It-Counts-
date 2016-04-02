@@ -1,6 +1,9 @@
 package be.ndsmyter.countexperiment;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -56,7 +59,41 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
         rootView.setOnClickListener(this);
         updateTitle();
         updateCount();
+
+        rootView.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSettings();
+            }
+        });
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+        Log.i(TAG, fragmentModel.getTitle());
+        readPreferences();
+        updateCount();
+        updateTitle();
+    }
+
+    private void readPreferences() {
+        Log.i(TAG, "Reading preferences");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String id = "-" + fragmentModel.getUniqueId();
+        fragmentModel.setTitle(
+                prefs.getString(FragmentPreferencesActivity.KEY_COUNTER_NAME + id, fragmentModel.getTitle()));
+        fragmentModel.setTouchedPoints(Integer.parseInt(
+                prefs.getString(FragmentPreferencesActivity.KEY_SCREEN_TOUCH + id,
+                                "" + fragmentModel.getTouchedPoints())));
+        fragmentModel.setVolumeUpPoints(Integer.parseInt(
+                prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_UP + id,
+                                "" + fragmentModel.getVolumeUpPoints())));
+        fragmentModel.setVolumeDownPoints(Integer.parseInt(
+                prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_DOWN + id,
+                                "" + fragmentModel.getVolumeDownPoints())));
     }
 
     /**
@@ -67,7 +104,6 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
      */
     private void setText(int id, String text) {
         if (this.rootView == null) {
-            Log.i(TAG, "Trying to update " + id + " failed (" + text + ")");
             return;
         }
         ((TextView) this.rootView.findViewById(id)).setText(text);
@@ -86,9 +122,9 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
      */
     public boolean onKeyDown(int keyCode) {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            this.fragmentModel.addKeyDown();
+            this.fragmentModel.addVolumeDown();
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            this.fragmentModel.addKeyUp();
+            this.fragmentModel.addVolumeUp();
         }
         return false;
     }
@@ -120,5 +156,11 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
     public void notifyChanged() {
         updateTitle();
         updateCount();
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(getActivity(), FragmentPreferencesActivity.class);
+        intent.putExtra("model", fragmentModel);
+        startActivity(intent);
     }
 }

@@ -10,26 +10,35 @@ import java.io.Serializable;
  */
 public class FragmentModel extends ListenerModel implements Serializable {
 
+    private final int uniqueId;
+
     private String title;
 
     private int touched;
 
-    private int keyUps;
+    private int volumeUps;
 
-    private int keyDowns;
+    private int volumeDowns;
 
     private int touchedPoints = 1;
 
-    private int keyUpPoints = 10;
+    private int volumeUpPoints = 10;
 
-    private int keyDownPoints = 100;
+    private int volumeDownPoints = 100;
+
+    private static int uniqueIds = 0;
 
     public FragmentModel(String title) {
+        this.uniqueId = ++uniqueIds;
         this.title = title;
     }
 
+    public int getUniqueId() {
+        return uniqueId;
+    }
+
     public int getCount() {
-        return touched * touchedPoints + keyUps * keyUpPoints + keyDowns * keyDownPoints;
+        return touched * touchedPoints + volumeUps * volumeUpPoints + volumeDowns * volumeDownPoints;
     }
 
     public String getTitle() {
@@ -55,31 +64,31 @@ public class FragmentModel extends ListenerModel implements Serializable {
         notifyChanged();
     }
 
-    public int getKeyUps() {
-        return keyUps;
+    public int getVolumeUps() {
+        return volumeUps;
     }
 
-    public void addKeyUp() {
-        this.keyUps++;
+    public void addVolumeUp() {
+        this.volumeUps++;
         notifyChanged();
     }
 
-    public void setKeyUps(int keyUps) {
-        this.keyUps = keyUps;
+    public void setVolumeUps(int volumeUps) {
+        this.volumeUps = volumeUps;
         notifyChanged();
     }
 
-    public int getKeyDowns() {
-        return keyDowns;
+    public int getVolumeDowns() {
+        return volumeDowns;
     }
 
-    public void addKeyDown() {
-        this.keyDowns++;
+    public void addVolumeDown() {
+        this.volumeDowns++;
         notifyChanged();
     }
 
-    public void setKeyDowns(int keyDowns) {
-        this.keyDowns = keyDowns;
+    public void setVolumeDowns(int keyDowns) {
+        this.volumeDowns = keyDowns;
         notifyChanged();
     }
 
@@ -92,21 +101,21 @@ public class FragmentModel extends ListenerModel implements Serializable {
         notifyChanged();
     }
 
-    public int getKeyUpPoints() {
-        return keyUpPoints;
+    public int getVolumeUpPoints() {
+        return volumeUpPoints;
     }
 
-    public void setKeyUpPoints(int keyUpPoints) {
-        this.keyUpPoints = keyUpPoints;
+    public void setVolumeUpPoints(int volumeUpPoints) {
+        this.volumeUpPoints = volumeUpPoints;
         notifyChanged();
     }
 
-    public int getKeyDownPoints() {
-        return keyDownPoints;
+    public int getVolumeDownPoints() {
+        return volumeDownPoints;
     }
 
-    public void setKeyDownPoints(int keyDownPoints) {
-        this.keyDownPoints = keyDownPoints;
+    public void setVolumeDownPoints(int volumeDownPoints) {
+        this.volumeDownPoints = volumeDownPoints;
         notifyChanged();
     }
 }
