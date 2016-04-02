@@ -3,14 +3,14 @@
 ## Build an debug APK
 
 Using Gradle, choose
-> CountExperiment > Tasks > build > assembleDebug
+> Android Experiment > Tasks > build > assembleDebug
 
 or
 
-> CountExperiment > Tasks > build > assembleRelease
+> Android Experiment > Tasks > build > assembleRelease
 
 If you do this, the generated APKs will be stored in
-CountExperiment\mobile\build\outputs\apk.
+Android Experiment\mobile\build\outputs\apk.
 
 In most cases mobile-debug.apk is the one you need.
 To install it, you should make sure that there is no other application with the same path was installed.
