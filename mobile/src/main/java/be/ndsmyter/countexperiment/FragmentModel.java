@@ -1,6 +1,7 @@
 package be.ndsmyter.countexperiment;
 
 import be.ndsmyter.countexperiment.common.ListenerModel;
+import be.ndsmyter.countexperiment.common.Visualization;
 
 import java.io.Serializable;
 
@@ -25,6 +26,8 @@ public class FragmentModel extends ListenerModel implements Serializable {
     private int volumeUpPoints = 10;
 
     private int volumeDownPoints = 100;
+
+    private Visualization visualization;
 
     private static int uniqueIds = 0;
 
@@ -117,5 +120,14 @@ public class FragmentModel extends ListenerModel implements Serializable {
     public void setVolumeDownPoints(int volumeDownPoints) {
         this.volumeDownPoints = volumeDownPoints;
         notifyChanged();
+    }
+
+    public Visualization getVisualization() {
+        return visualization;
+    }
+
+    public void setVisualization(Visualization visualization) {
+        visualization.setModel(this);
+        this.visualization = visualization;
     }
 }

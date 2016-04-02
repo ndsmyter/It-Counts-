@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ndsmyter.countexperiment.common.Listener;
 import be.ndsmyter.countexperiment.preferences.FragmentPreferencesActivity;
-import be.ndsmyter.countexperiment.visuals.TallyVisual;
+import be.ndsmyter.countexperiment.visuals.SofieVisual;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -57,6 +57,8 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
             return null;
         }
         this.fragmentModel.addListener(this);
+//        this.fragmentModel.setVisualization(new TallyVisual());
+        this.fragmentModel.setVisualization(new SofieVisual());
         this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnClickListener(this);
         updateTitle();
@@ -70,11 +72,9 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         });
 
         // Add visualization
-        TallyVisual fragment = new TallyVisual();
-        fragment.setModel(fragmentModel);
         getChildFragmentManager()
                 .beginTransaction()
-                .replace(R.id.visual_container, fragment)
+                .replace(R.id.visual_container, (Fragment) fragmentModel.getVisualization())
                 .commit();
         return rootView;
     }
