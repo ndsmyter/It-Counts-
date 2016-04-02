@@ -1,4 +1,4 @@
-package be.ndsmyter.countexperiment;
+package be.ndsmyter.countexperiment.preferences;
 
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
@@ -8,6 +8,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import be.ndsmyter.countexperiment.FragmentModel;
+import be.ndsmyter.countexperiment.R;
 
 public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {

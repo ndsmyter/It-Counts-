@@ -6,4 +6,7 @@
 	<!-- Strings related to Settings -->
 	<string name="pref_cat_general">General</string>
 	<string name="pref_cat_buttons">Button Mapping</string>
+	<string name="empty_visualization">Empty Visualization</string>
+	<string name="debug_section_label">Section Label</string>
+	<string name="debug_count_label">0</string>
 </resources>

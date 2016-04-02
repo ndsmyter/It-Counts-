@@ -1,4 +1,4 @@
-package be.ndsmyter.countexperiment;
+package be.ndsmyter.countexperiment.preferences;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

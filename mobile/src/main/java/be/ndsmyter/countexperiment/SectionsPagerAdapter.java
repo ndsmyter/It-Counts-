@@ -16,7 +16,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private List<FragmentModel> models;
 
-    private List<SectionFragment> fragmentList = new ArrayList<SectionFragment>();
+    private List<CounterFragment> fragmentList = new ArrayList<CounterFragment>();
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -32,7 +32,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         while (position >= fragmentList.size()) {
             // Instantiate a new section fragment
-            fragmentList.add(SectionFragment.newInstance(models.get(position)));
+            fragmentList.add(CounterFragment.newInstance(models.get(position)));
         }
         return fragmentList.get(position);
     }
@@ -45,6 +45,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ((SectionFragment) getItem(position)).getTitle();
+        return ((CounterFragment) getItem(position)).getTitle();
     }
 }

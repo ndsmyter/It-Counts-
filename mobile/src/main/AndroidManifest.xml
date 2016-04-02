@@ -17,7 +17,7 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name=".FragmentPreferencesActivity"
+				android:name=".preferences.FragmentPreferencesActivity"
 				android:label="@string/counter_settings_desc">
 		</activity>
 	</application>

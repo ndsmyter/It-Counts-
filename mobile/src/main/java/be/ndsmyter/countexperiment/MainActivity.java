@@ -65,6 +65,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Pass on the key to the children
-        return ((SectionFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())).onKeyDown(keyCode);
+        return ((CounterFragment) mSectionsPagerAdapter.getItem(mViewPager.getCurrentItem())).onKeyDown(keyCode);
     }
 }

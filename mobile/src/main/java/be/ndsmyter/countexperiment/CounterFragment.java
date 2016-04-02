@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ndsmyter.countexperiment.common.Listener;
+import be.ndsmyter.countexperiment.preferences.FragmentPreferencesActivity;
+import be.ndsmyter.countexperiment.visuals.TallyVisual;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class SectionFragment extends Fragment implements View.OnClickListener, Listener {
+public class CounterFragment extends Fragment implements View.OnClickListener, Listener {
 
     private static final String TAG = "CE";
 
@@ -32,8 +34,8 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
     /**
      * Returns a new instance of this fragment for the given section number.
      */
-    public static SectionFragment newInstance(FragmentModel fragmentModel) {
-        SectionFragment fragment = new SectionFragment();
+    public static CounterFragment newInstance(FragmentModel fragmentModel) {
+        CounterFragment fragment = new CounterFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_FRAGMENT_MODEL, fragmentModel);
         fragment.setArguments(args);
@@ -44,7 +46,7 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
      * Create a new SectionFragment. Default constructor without any arguments because Fragments should be initialized
      * like this. The methods setArguments and getArguments should be used instead to pass arguments.
      */
-    public SectionFragment() {
+    public CounterFragment() {
     }
 
     @Override
@@ -66,21 +68,26 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
                 openSettings();
             }
         });
+
+        // Add visualization
+        TallyVisual fragment = new TallyVisual();
+        fragment.setModel(fragmentModel);
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.visual_container, fragment)
+                .commit();
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i(TAG, "onResume");
-        Log.i(TAG, fragmentModel.getTitle());
         readPreferences();
         updateCount();
         updateTitle();
     }
 
     private void readPreferences() {
-        Log.i(TAG, "Reading preferences");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String id = "-" + fragmentModel.getUniqueId();
         fragmentModel.setTitle(
@@ -158,6 +165,9 @@ public class SectionFragment extends Fragment implements View.OnClickListener, L
         updateCount();
     }
 
+    /**
+     * Open the settings for this counter.
+     */
     public void openSettings() {
         Intent intent = new Intent(getActivity(), FragmentPreferencesActivity.class);
         intent.putExtra("model", fragmentModel);
