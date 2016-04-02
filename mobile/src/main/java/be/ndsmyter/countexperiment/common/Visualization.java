@@ -14,4 +14,16 @@ public interface Visualization {
      * @param fragmentModel the model that contains all the useful information.
      */
     void setModel(FragmentModel fragmentModel);
+
+    /**
+     * Get the layout for the visualization.
+     *
+     * @return the ID of the layout.
+     */
+    int getLayout();
+
+    /**
+     * Draw on the view.
+     */
+    void drawOnView();
 }
