@@ -4,12 +4,16 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
+import be.ndsmyter.countexperiment.visuals.common.VisualManager;
+
+import java.util.List;
 
 public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -23,6 +27,8 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
     public static final String KEY_VOLUME_UP = "volumeUp";
 
     public static final String KEY_VOLUME_DOWN = "volumeDown";
+
+    public static final String KEY_VISUALIZATION = "visualization";
 
     private FragmentModel fragmentModel;
 
@@ -46,6 +52,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             editor.putString(KEY_SCREEN_TOUCH, "" + fragmentModel.getTouchedPoints());
             editor.putString(KEY_VOLUME_UP, "" + fragmentModel.getVolumeUpPoints());
             editor.putString(KEY_VOLUME_DOWN, "" + fragmentModel.getVolumeDownPoints());
+            editor.putString(KEY_VISUALIZATION, "" + fragmentModel.getVisualizationIndex());
             editor.apply();
         }
 
@@ -75,20 +82,22 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
-        String id = "-" + fragmentModel.getUniqueId();
+        String id = key + "-" + fragmentModel.getUniqueId();
         switch (key) {
             case KEY_COUNTER_NAME:
-                editor.putString(key + id, prefs.getString(KEY_COUNTER_NAME, fragmentModel.getTitle()));
+                editor.putString(id, prefs.getString(key, fragmentModel.getTitle()));
                 break;
             case KEY_SCREEN_TOUCH:
-                editor.putString(key + id, prefs.getString(key, "" + fragmentModel.getTouchedPoints()));
+                editor.putString(id, prefs.getString(key, "" + fragmentModel.getTouchedPoints()));
                 break;
             case KEY_VOLUME_DOWN:
-                editor.putString(key + id, prefs.getString(key, "" + fragmentModel.getVolumeDownPoints()));
+                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVolumeDownPoints()));
                 break;
             case KEY_VOLUME_UP:
-                editor.putString(key + id, prefs.getString(key, "" + fragmentModel.getVolumeUpPoints()));
+                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVolumeUpPoints()));
                 break;
+            case KEY_VISUALIZATION:
+                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVisualizationIndex()));
             default:
                 break;
         }
@@ -105,6 +114,27 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.fragment_preferences);
+
+            addVisualizations();
+        }
+
+        /**
+         * Add the list of visualization to the preference screen.
+         */
+        private void addVisualizations() {
+            List<VisualManager.VisualElement> visualizations = VisualManager.getVisualizations();
+            int length = visualizations.size();
+            String[] entries = new String[length];
+            String[] entryValues = new String[length];
+            for (int i = 0; i < length; i++) {
+                VisualManager.VisualElement visualization = visualizations.get(i);
+                entries[i] = visualization.getName();
+                entryValues[i] = "" + i;
+            }
+
+            ListPreference preference = (ListPreference) findPreference(KEY_VISUALIZATION);
+            preference.setEntries(entries);
+            preference.setEntryValues(entryValues);
         }
     }
 }

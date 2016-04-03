@@ -18,7 +18,7 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private String title;
 
-    private int touched;
+    private int touched = 5;
 
     private int volumeUps;
 
@@ -30,14 +30,13 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private int volumeDownPoints = 100;
 
-    private int visualization;
+    private int visualization = 1;
 
     private static int uniqueIds = 0;
 
     public FragmentModel(String title) {
         this.uniqueId = ++uniqueIds;
         this.title = title;
-        this.visualization = 0;
     }
 
     public int getUniqueId() {
@@ -126,6 +125,11 @@ public class FragmentModel extends ListenerModel implements Serializable {
         notifyChanged();
     }
 
+    /**
+     * Get the visualization as an object. The current model has also been added to this view.
+     *
+     * @return the visualization instantiated and filled up with the model.
+     */
     public Visualization getVisualization() {
         Visualization visual = VisualManager.getVisualization(visualization);
         if (visual != null) {
@@ -134,6 +138,20 @@ public class FragmentModel extends ListenerModel implements Serializable {
         return visual;
     }
 
+    /**
+     * Get the index of the visualization.
+     *
+     * @return the index of the visualization.
+     */
+    public int getVisualizationIndex() {
+        return visualization;
+    }
+
+    /**
+     * Update the current visualization.
+     *
+     * @param visualization the index of the visualization.
+     */
     public void setVisualization(int visualization) {
         this.visualization = visualization;
     }

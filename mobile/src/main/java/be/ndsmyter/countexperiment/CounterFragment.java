@@ -30,6 +30,8 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
 
     private FragmentModel fragmentModel;
 
+    private int currentVisualization;
+
     /**
      * Returns a new instance of this fragment for the given section number.
      */
@@ -58,8 +60,8 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         this.fragmentModel.addListener(this);
         this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnClickListener(this);
-        updateTitle();
-        updateCount();
+
+        update();
 
         rootView.findViewById(R.id.settings_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,22 +70,42 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
             }
         });
 
-        // Add visualization
-        getChildFragmentManager()
-                .beginTransaction()
-                .replace(R.id.visual_container, (Fragment) fragmentModel.getVisualization())
-                .commit();
         return rootView;
+    }
+
+    /**
+     * Wrapper method for all the update methods.
+     */
+    private void update() {
+        updateTitle();
+        updateCount();
+        updateVisualization();
+    }
+
+    /**
+     * Update the visualization.
+     */
+    private void updateVisualization() {
+        int newVisualization = fragmentModel.getVisualizationIndex();
+        if (currentVisualization != newVisualization) {
+            currentVisualization = newVisualization;
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.visual_container, (Fragment) fragmentModel.getVisualization())
+                    .commit();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         readPreferences();
-        updateCount();
-        updateTitle();
+        update();
     }
 
+    /**
+     * Read the preferences and register the changes in the model.
+     */
     private void readPreferences() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String id = "-" + fragmentModel.getUniqueId();
@@ -98,6 +120,9 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         fragmentModel.setVolumeDownPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_DOWN + id,
                                 "" + fragmentModel.getVolumeDownPoints())));
+        fragmentModel.setVisualization(Integer.parseInt(
+                prefs.getString(FragmentPreferencesActivity.KEY_VISUALIZATION + id,
+                                "" + fragmentModel.getVisualizationIndex())));
     }
 
     /**

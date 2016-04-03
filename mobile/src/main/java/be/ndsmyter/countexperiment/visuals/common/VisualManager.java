@@ -20,8 +20,8 @@ public class VisualManager {
     static {
         // Fill up the visualizations list
         visualizations = new ArrayList<VisualElement>();
-        visualizations.add(new VisualElement(TallyVisual.class, new TallyVisual().getName()));
         visualizations.add(new VisualElement(SquareVisual.class, new SquareVisual().getName()));
+        visualizations.add(new VisualElement(TallyVisual.class, new TallyVisual().getName()));
     }
 
     /**

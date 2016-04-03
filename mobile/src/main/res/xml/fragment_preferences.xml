@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<EditTextPreference android:title="Counter Name"
+	<EditTextPreference android:title="@string/pref_title_name"
 						android:key="counterName"
-						android:summary="The name of the counter"/>
+						android:summary="@string/pref_desc_name"/>
 	<PreferenceCategory android:title="@string/pref_cat_buttons">
-		<EditTextPreference android:title="Screen touch"
+		<EditTextPreference android:title="@string/pref_title_touch"
 							android:inputType="numberDecimal|numberSigned"
-							android:summary="How much will be added on a screen touch"
+							android:summary="@string/pref_desc_touch"
 							android:key="screenTouch"/>
-		<EditTextPreference android:title="Volume Up"
+		<EditTextPreference android:title="@string/pref_title_volume_up"
 							android:inputType="numberDecimal|numberSigned"
-							android:summary="How much will be added on volume up"
+							android:summary="@string/pref_desc_volume_up"
 							android:key="volumeUp"/>
-		<EditTextPreference android:title="Volume Down"
+		<EditTextPreference android:title="@string/pref_title_volume_down"
 							android:inputType="numberDecimal|numberSigned"
-							android:summary="How much will be added on volume down"
+							android:summary="@string/pref_desc_volume_down"
 							android:key="volumeDown"/>
 	</PreferenceCategory>
+	<ListPreference android:title="@string/pref_title_visualization"
+					android:key="visualization"/>
 	<CheckBoxPreference android:title="Allow only integers"
 						android:defaultValue="true"
 						android:summary="Allow only integers"

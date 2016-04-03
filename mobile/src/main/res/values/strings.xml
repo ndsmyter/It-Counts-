@@ -9,4 +9,13 @@
 	<string name="empty_visualization">Empty Visualization</string>
 	<string name="debug_section_label">Section Label</string>
 	<string name="debug_count_label">0</string>
+	<string name="pref_title_visualization">Visualization</string>
+	<string name="pref_title_volume_down">Volume Down</string>
+	<string name="pref_title_volume_up">Volume Up</string>
+	<string name="pref_title_touch">Screen touch</string>
+	<string name="pref_title_name">Counter Name</string>
+	<string name="pref_desc_name">The name of the counter</string>
+	<string name="pref_desc_touch">How much will be added on a screen touch</string>
+	<string name="pref_desc_volume_up">How much will be added on volume up</string>
+	<string name="pref_desc_volume_down">How much will be added on volume down</string>
 </resources>
