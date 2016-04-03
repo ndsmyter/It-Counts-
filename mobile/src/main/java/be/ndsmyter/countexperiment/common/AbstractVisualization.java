@@ -12,7 +12,7 @@ import be.ndsmyter.countexperiment.R;
  * @author Nicolas De Smyter
  * @since 2 apr 16
  */
-public class AbstractVisualization extends Fragment implements Visualization {
+public abstract class AbstractVisualization extends Fragment implements Visualization {
 
     protected FragmentModel fragmentModel;
 
@@ -41,8 +41,7 @@ public class AbstractVisualization extends Fragment implements Visualization {
         return R.layout.empty_visualization;
     }
 
-    public void drawOnView() {
-    }
+    public abstract void drawOnView();
 
     @Override
     public void setModel(FragmentModel fragmentModel) {
