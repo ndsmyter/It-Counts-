@@ -1,4 +1,4 @@
-package be.ndsmyter.countexperiment.common;
+package be.ndsmyter.countexperiment.visuals.common;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -40,8 +40,6 @@ public abstract class AbstractVisualization extends Fragment implements Visualiz
     public int getLayout() {
         return R.layout.empty_visualization;
     }
-
-    public abstract void drawOnView();
 
     @Override
     public void setModel(FragmentModel fragmentModel) {

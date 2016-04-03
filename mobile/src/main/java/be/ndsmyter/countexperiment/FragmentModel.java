@@ -1,8 +1,8 @@
 package be.ndsmyter.countexperiment;
 
-import android.util.Log;
 import be.ndsmyter.countexperiment.common.ListenerModel;
-import be.ndsmyter.countexperiment.common.Visualization;
+import be.ndsmyter.countexperiment.visuals.common.VisualManager;
+import be.ndsmyter.countexperiment.visuals.common.Visualization;
 
 import java.io.Serializable;
 
@@ -30,13 +30,14 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private int volumeDownPoints = 100;
 
-    private Class visualization;
+    private int visualization;
 
     private static int uniqueIds = 0;
 
     public FragmentModel(String title) {
         this.uniqueId = ++uniqueIds;
         this.title = title;
+        this.visualization = 0;
     }
 
     public int getUniqueId() {
@@ -125,23 +126,15 @@ public class FragmentModel extends ListenerModel implements Serializable {
         notifyChanged();
     }
 
-    @SuppressWarnings("TryWithIdenticalCatches")
     public Visualization getVisualization() {
-        Visualization visual = null;
-        try {
-            visual = (Visualization) visualization.newInstance();
-        } catch (InstantiationException e) {
-            Log.e(TAG, "Couldn't instantiate the visualization");
-        } catch (IllegalAccessException e) {
-            Log.e(TAG, "Couldn't instantiate the visualization");
-        }
+        Visualization visual = VisualManager.getVisualization(visualization);
         if (visual != null) {
             visual.setModel(this);
         }
         return visual;
     }
 
-    public void setVisualization(Visualization visualization) {
-        this.visualization = visualization.getClass();
+    public void setVisualization(int visualization) {
+        this.visualization = visualization;
     }
 }

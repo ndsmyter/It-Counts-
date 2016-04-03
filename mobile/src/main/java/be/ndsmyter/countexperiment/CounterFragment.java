@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import be.ndsmyter.countexperiment.common.Listener;
 import be.ndsmyter.countexperiment.preferences.FragmentPreferencesActivity;
-import be.ndsmyter.countexperiment.visuals.SofieVisual;
-import be.ndsmyter.countexperiment.visuals.TallyVisual;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -58,8 +56,6 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
             return null;
         }
         this.fragmentModel.addListener(this);
-//        this.fragmentModel.setVisualization(new TallyVisual());
-        this.fragmentModel.setVisualization(new SofieVisual());
         this.rootView = inflater.inflate(R.layout.fragment_main, container, false);
         rootView.setOnClickListener(this);
         updateTitle();
@@ -95,13 +91,13 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
                 prefs.getString(FragmentPreferencesActivity.KEY_COUNTER_NAME + id, fragmentModel.getTitle()));
         fragmentModel.setTouchedPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_SCREEN_TOUCH + id,
-                        "" + fragmentModel.getTouchedPoints())));
+                                "" + fragmentModel.getTouchedPoints())));
         fragmentModel.setVolumeUpPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_UP + id,
-                        "" + fragmentModel.getVolumeUpPoints())));
+                                "" + fragmentModel.getVolumeUpPoints())));
         fragmentModel.setVolumeDownPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_DOWN + id,
-                        "" + fragmentModel.getVolumeDownPoints())));
+                                "" + fragmentModel.getVolumeDownPoints())));
     }
 
     /**

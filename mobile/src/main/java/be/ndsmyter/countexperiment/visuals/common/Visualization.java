@@ -1,4 +1,4 @@
-package be.ndsmyter.countexperiment.common;
+package be.ndsmyter.countexperiment.visuals.common;
 
 import be.ndsmyter.countexperiment.FragmentModel;
 
@@ -26,4 +26,11 @@ public interface Visualization {
      * Draw on the view.
      */
     void drawOnView();
+
+    /**
+     * The name for the visualization.
+     *
+     * @return the name of the visualization.
+     */
+    String getName();
 }

@@ -1,4 +1,4 @@
-package be.ndsmyter.countexperiment.visuals;
+package be.ndsmyter.countexperiment.visuals.squares;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -1,29 +1,25 @@
-package be.ndsmyter.countexperiment.visuals;
+package be.ndsmyter.countexperiment.visuals.squares;
 
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Gallery;
-import android.widget.ImageView;
-
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
-import be.ndsmyter.countexperiment.common.AbstractVisualization;
 import be.ndsmyter.countexperiment.common.Listener;
+import be.ndsmyter.countexperiment.visuals.common.AbstractVisualization;
 
 /**
  * @author Nicolas De Smyter
  * @since 2 apr 16
  */
-public class SofieVisual extends AbstractVisualization implements Listener {
+public class SquareVisual extends AbstractVisualization implements Listener {
 
     private int countShowing;
 
-    private static final String TAG = "Sofie";
+    private static final String TAG = "Square";
 
     @Override
     public int getLayout() {
-        return R.layout.sofie_visualization;
+        return R.layout.square_visualization;
     }
 
     @Override
@@ -32,6 +28,11 @@ public class SofieVisual extends AbstractVisualization implements Listener {
         countShowing = model.getCount();
         updateView();
         model.addListener(this);
+    }
+
+    @Override
+    public String getName() {
+        return "Square Visual";
     }
 
     @Override
@@ -49,11 +50,10 @@ public class SofieVisual extends AbstractVisualization implements Listener {
         Log.i(TAG, "The value should show " + countShowing);
         int count = this.countShowing;
         // Add 1 icon of the count
-        if(count > 0) {
+        if (count > 0) {
             ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
             viewGroup.removeAllViews();
-            viewGroup.addView(new LittleSquareDrawableView(getActivity(),count));
+            viewGroup.addView(new LittleSquareDrawableView(getActivity(), count));
         }
     }
-
 }

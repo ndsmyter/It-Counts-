@@ -1,12 +1,12 @@
-package be.ndsmyter.countexperiment.visuals;
+package be.ndsmyter.countexperiment.visuals.tally;
 
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
-import be.ndsmyter.countexperiment.common.AbstractVisualization;
 import be.ndsmyter.countexperiment.common.Listener;
+import be.ndsmyter.countexperiment.visuals.common.AbstractVisualization;
 
 /**
  * @author Nicolas De Smyter
@@ -29,6 +29,11 @@ public class TallyVisual extends AbstractVisualization implements Listener {
         countShowing = model.getCount();
         updateView();
         model.addListener(this);
+    }
+
+    @Override
+    public String getName() {
+        return "Tally Visual";
     }
 
     @Override
