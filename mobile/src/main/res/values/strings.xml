@@ -18,4 +18,5 @@
 	<string name="pref_desc_touch">How much will be added on a screen touch</string>
 	<string name="pref_desc_volume_up">How much will be added on volume up</string>
 	<string name="pref_desc_volume_down">How much will be added on volume down</string>
+	<string name="pref_desc_visualization">The visualization for the counter</string>
 </resources>

@@ -18,6 +18,7 @@
 							android:key="volumeDown"/>
 	</PreferenceCategory>
 	<ListPreference android:title="@string/pref_title_visualization"
+					android:summary="@string/pref_desc_visualization"
 					android:key="visualization"/>
 	<CheckBoxPreference android:title="Allow only integers"
 						android:defaultValue="true"

@@ -1,10 +1,12 @@
 package be.ndsmyter.countexperiment.preferences;
 
-import android.annotation.TargetApi;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -30,12 +32,20 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
 
     public static final String KEY_VISUALIZATION = "visualization";
 
+    private static final String[] KEYS =
+            new String[]{KEY_COUNTER_NAME, KEY_SCREEN_TOUCH, KEY_VOLUME_UP, KEY_VOLUME_DOWN, KEY_VISUALIZATION};
+
     private FragmentModel fragmentModel;
 
+    private GeneralPreferenceFragment preferenceFragment;
+
     @Override
+    @SuppressLint("CommitPrefEdits")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActionBar();
+
+        String title = "", touched = "";
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -44,19 +54,27 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
                 Log.i(TAG, "Model is null");
                 return;
             }
+            title = fragmentModel.getTitle();
+            touched = "" + fragmentModel.getTouchedPoints();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             prefs.registerOnSharedPreferenceChangeListener(this);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(KEY_COUNTER_NAME, fragmentModel.getTitle());
-            editor.putString(KEY_SCREEN_TOUCH, "" + fragmentModel.getTouchedPoints());
+
+            // Update preferences
+            editor.putString(KEY_COUNTER_NAME, title);
+            editor.putString(KEY_SCREEN_TOUCH, touched);
             editor.putString(KEY_VOLUME_UP, "" + fragmentModel.getVolumeUpPoints());
             editor.putString(KEY_VOLUME_DOWN, "" + fragmentModel.getVolumeDownPoints());
             editor.putString(KEY_VISUALIZATION, "" + fragmentModel.getVisualizationIndex());
-            editor.apply();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                editor.apply();
+            } else {
+                editor.commit();
+            }
         }
-
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new GeneralPreferenceFragment()).commit();
+        preferenceFragment = new GeneralPreferenceFragment();
+        getFragmentManager().beginTransaction().replace(android.R.id.content, preferenceFragment).commit();
     }
 
     /**
@@ -79,35 +97,59 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
     }
 
     @Override
+    @SuppressLint("CommitPrefEdits")
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
         String id = key + "-" + fragmentModel.getUniqueId();
+        String value;
         switch (key) {
             case KEY_COUNTER_NAME:
-                editor.putString(id, prefs.getString(key, fragmentModel.getTitle()));
+                value = prefs.getString(key, fragmentModel.getTitle());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_name, value);
                 break;
             case KEY_SCREEN_TOUCH:
-                editor.putString(id, prefs.getString(key, "" + fragmentModel.getTouchedPoints()));
+                value = prefs.getString(key, "" + fragmentModel.getTouchedPoints());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_touch, value);
                 break;
             case KEY_VOLUME_DOWN:
-                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVolumeDownPoints()));
+                value = prefs.getString(key, "" + fragmentModel.getVolumeDownPoints());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_volume_down, value);
                 break;
             case KEY_VOLUME_UP:
-                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVolumeUpPoints()));
+                value = prefs.getString(key, "" + fragmentModel.getVolumeUpPoints());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_volume_up, value);
                 break;
             case KEY_VISUALIZATION:
-                editor.putString(id, prefs.getString(key, "" + fragmentModel.getVisualizationIndex()));
+                value = prefs.getString(key, "" + fragmentModel.getVisualizationIndex());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_visualization, VisualManager.getVisualElement(value).getName());
             default:
                 break;
         }
-        editor.apply();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            editor.apply();
+        } else {
+            editor.commit();
+        }
+    }
+
+    private void updateSummary(String key, int stringId, String value) {
+        if (!value.isEmpty()) {
+            Preference preference = preferenceFragment.findPreference(key);
+            if (preference != null) {
+                preference.setSummary(getResources().getString(stringId) + ": " + value);
+            }
+        }
     }
 
     /**
-     * This fragment shows general preferences only. It is used when the activity is showing a two-pane settings UI.
+     * Show the general preferences of this application.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class GeneralPreferenceFragment extends PreferenceFragment {
 
         @Override
@@ -116,6 +158,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             addPreferencesFromResource(R.xml.fragment_preferences);
 
             addVisualizations();
+            initSummary();
         }
 
         /**
@@ -135,6 +178,26 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             ListPreference preference = (ListPreference) findPreference(KEY_VISUALIZATION);
             preference.setEntries(entries);
             preference.setEntryValues(entryValues);
+        }
+
+        private void initSummary() {
+            for (String key : KEYS) {
+                updateSummary(key);
+            }
+        }
+
+        private void updateSummary(String key) {
+            Preference preference = findPreference(key);
+            if (preference != null) {
+                String value = "";
+                if (preference instanceof EditTextPreference) {
+                    value = ((EditTextPreference) preference).getText();
+                } else if (preference instanceof ListPreference) {
+                    value = (String) ((ListPreference) preference).getEntry();
+                }
+
+                preference.setSummary(preference.getSummary() + ": " + value);
+            }
         }
     }
 }
