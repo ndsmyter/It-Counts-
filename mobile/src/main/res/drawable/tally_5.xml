@@ -6,27 +6,21 @@
     android:viewportHeight="144">
 
     <group
-            android:name="layer1"
             android:translateX="-890.5"
             android:translateY="-422.64789">
         <path
-            android:name="path3013"
             android:fillColor="#000000"
             android:pathData="M 929.5,438.64789 l 9,-6 3,118 -9,6 z" />
         <path
-            android:name="path3011"
             android:fillColor="#000000"
             android:pathData="M 951.5,438.64789 l 9,-6 3,118 -9,6 z" />
         <path
-            android:name="path3009"
             android:fillColor="#000000"
             android:pathData="M 973.5,438.64789 l 9,-6 3,118 -9,6 z" />
         <path
-            android:name="path3007"
             android:fillColor="#000000"
             android:pathData="M 995.5,438.64789 l 9,-6 3,118 -9,6 z" />
         <path
-            android:name="path4"
             android:fillColor="#000000"
             android:pathData="M 1039.5,532.64789 l -7,7 -132,-85 7,-7 z" />
     </group>

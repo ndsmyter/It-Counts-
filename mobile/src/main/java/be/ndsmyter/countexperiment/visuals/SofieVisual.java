@@ -1,6 +1,11 @@
 package be.ndsmyter.countexperiment.visuals;
 
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Gallery;
+import android.widget.ImageView;
+
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
 import be.ndsmyter.countexperiment.common.AbstractVisualization;
@@ -42,5 +47,13 @@ public class SofieVisual extends AbstractVisualization implements Listener {
     private void updateView() {
         // Do something fancy to update the view
         Log.i(TAG, "The value should show " + countShowing);
+        int count = this.countShowing;
+        // Add 1 icon of the count
+        if(count > 0) {
+            ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
+            viewGroup.removeAllViews();
+            viewGroup.addView(new LittleSquareDrawableView(getActivity(),count));
+        }
     }
+
 }
