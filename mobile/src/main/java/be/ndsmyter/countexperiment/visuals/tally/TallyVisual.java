@@ -38,7 +38,11 @@ public class TallyVisual extends AbstractVisualization implements Listener {
 
     @Override
     public void notifyChanged() {
-        int currentCount = getModel().getCount();
+        FragmentModel model = getModel();
+        if (getView() == null) {
+            model.removeListener(this);
+        }
+        int currentCount = model.getCount();
         if (countShowing != currentCount) {
             // Only redraw the view if the count has changed
             countShowing = currentCount;

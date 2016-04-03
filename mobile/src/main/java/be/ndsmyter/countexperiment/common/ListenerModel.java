@@ -28,6 +28,15 @@ public class ListenerModel {
     }
 
     /**
+     * Remove the listener from the list of listeners.
+     *
+     * @param listener the listener that should be removed.
+     */
+    public void removeListener(Listener listener) {
+        this.listeners.remove(listener);
+    }
+
+    /**
      * Notify the listeners that something has changed.
      */
     public void notifyChanged() {

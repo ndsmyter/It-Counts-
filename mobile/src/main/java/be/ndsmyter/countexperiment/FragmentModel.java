@@ -18,7 +18,7 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private String title;
 
-    private int touched = 5;
+    private int touched;
 
     private int volumeUps;
 
@@ -30,9 +30,9 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private int volumeDownPoints = 100;
 
-    private int visualization = 1;
+    private int visualization;
 
-    private static int uniqueIds = 0;
+    private static int uniqueIds;
 
     public FragmentModel(String title) {
         this.uniqueId = ++uniqueIds;

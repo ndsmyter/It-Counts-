@@ -139,7 +139,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
     }
 
     private void updateSummary(String key, int stringId, String value) {
-        if (!value.isEmpty()) {
+        if (!value.isEmpty() && preferenceFragment != null) {
             Preference preference = preferenceFragment.findPreference(key);
             if (preference != null) {
                 preference.setSummary(getResources().getString(stringId) + ": " + value);
