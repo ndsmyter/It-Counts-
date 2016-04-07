@@ -1,7 +1,7 @@
 package be.ndsmyter.countexperiment.common;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Nicolas De Smyter
@@ -11,11 +11,15 @@ public class ListenerModel {
 
     private List<Listener> listeners;
 
+    private final String listenerLock = "listenerLock";
+
     /**
      * Create a new model that will hold the listeners that will be notified of any changes to the model.
      */
     public ListenerModel() {
-        this.listeners = new ArrayList<Listener>();
+        synchronized (listenerLock) {
+            this.listeners = new CopyOnWriteArrayList<Listener>();
+        }
     }
 
     /**
@@ -24,7 +28,9 @@ public class ListenerModel {
      * @param listener the listener that should be notified.
      */
     public void addListener(Listener listener) {
-        this.listeners.add(listener);
+        synchronized (listenerLock) {
+            this.listeners.add(listener);
+        }
     }
 
     /**
@@ -33,15 +39,19 @@ public class ListenerModel {
      * @param listener the listener that should be removed.
      */
     public void removeListener(Listener listener) {
-        this.listeners.remove(listener);
+        synchronized (listenerLock) {
+            this.listeners.remove(listener);
+        }
     }
 
     /**
      * Notify the listeners that something has changed.
      */
     public void notifyChanged() {
-        for (Listener listener : listeners) {
-            listener.notifyChanged();
+        synchronized (listenerLock) {
+            for (Listener listener : listeners) {
+                listener.notifyChanged();
+            }
         }
     }
 }

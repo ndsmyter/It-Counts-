@@ -39,6 +39,10 @@ public class TallyVisual extends AbstractVisualization implements Listener {
     @Override
     public void notifyChanged() {
         FragmentModel model = getModel();
+        if (model == null) {
+            Log.e(TAG, "The model is null ?");
+            return;
+        }
         if (getView() == null) {
             model.removeListener(this);
         }
@@ -50,6 +54,9 @@ public class TallyVisual extends AbstractVisualization implements Listener {
         }
     }
 
+    /**
+     * Update the view.
+     */
     private void updateView() {
         int count = this.countShowing;
         int fives = (int) Math.floor(count / 5);
@@ -68,8 +75,14 @@ public class TallyVisual extends AbstractVisualization implements Listener {
         }
     }
 
+    /**
+     * Get the view for the specific number.
+     *
+     * @param number the number that we should show.
+     * @return the ImageView containing the specific number.
+     */
     private ImageView getView(int number) {
-        ImageView imageView = new ImageView(getActivity());
+        ImageView imageView = new ImageView(getFragmentContext());
         int resource = 0;
         switch (number) {
             case 1:

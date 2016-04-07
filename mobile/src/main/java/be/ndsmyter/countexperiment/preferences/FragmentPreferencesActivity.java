@@ -138,6 +138,14 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
         }
     }
 
+    /**
+     * Update summary of the setting with the given key. The text identified by the stringId will be loaded and the
+     * value will be appended.
+     *
+     * @param key      the key of the setting on the screen.
+     * @param stringId the ID of the string from the resources.
+     * @param value    the value that will be appended to the summary.
+     */
     private void updateSummary(String key, int stringId, String value) {
         if (!value.isEmpty() && preferenceFragment != null) {
             Preference preference = preferenceFragment.findPreference(key);
@@ -180,12 +188,20 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             preference.setEntryValues(entryValues);
         }
 
+        /**
+         * Initialize the summary for the preferences.
+         */
         private void initSummary() {
             for (String key : KEYS) {
                 updateSummary(key);
             }
         }
 
+        /**
+         * Update the summary for the preference identified by the given key.
+         *
+         * @param key the key of the preference that needs an updated summary.
+         */
         private void updateSummary(String key) {
             Preference preference = findPreference(key);
             if (preference != null) {

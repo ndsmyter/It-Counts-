@@ -30,7 +30,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
 
     private FragmentModel fragmentModel;
 
-    private int currentVisualization;
+    private int currentVisualization = -1;
 
     /**
      * Returns a new instance of this fragment for the given section number.
@@ -71,6 +71,12 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        update();
     }
 
     /**

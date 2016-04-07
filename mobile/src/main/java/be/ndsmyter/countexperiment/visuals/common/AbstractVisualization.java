@@ -1,5 +1,6 @@
 package be.ndsmyter.countexperiment.visuals.common;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,23 @@ public abstract class AbstractVisualization extends Fragment implements Visualiz
     protected FragmentModel fragmentModel;
 
     private View rootView;
+
+    private Context context;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+    /**
+     * Get the fragment context that was stored using {#onAttach(Context)}
+     *
+     * @return the current context.
+     */
+    public Context getFragmentContext() {
+        return context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

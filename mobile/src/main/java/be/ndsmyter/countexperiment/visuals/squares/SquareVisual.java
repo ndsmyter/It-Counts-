@@ -38,6 +38,10 @@ public class SquareVisual extends AbstractVisualization implements Listener {
     @Override
     public void notifyChanged() {
         FragmentModel model = getModel();
+        if (model == null) {
+            Log.e(TAG, "The model is null ?");
+            return;
+        }
         if (getView() == null) {
             model.removeListener(this);
         }
@@ -49,6 +53,9 @@ public class SquareVisual extends AbstractVisualization implements Listener {
         }
     }
 
+    /**
+     * Update the view.
+     */
     private void updateView() {
         // Do something fancy to update the view
         Log.i(TAG, "The value should show " + countShowing);
@@ -57,7 +64,7 @@ public class SquareVisual extends AbstractVisualization implements Listener {
         if (count > 0) {
             ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
             viewGroup.removeAllViews();
-            viewGroup.addView(new LittleSquareDrawableView(getActivity(), count));
+            viewGroup.addView(new LittleSquareDrawableView(getFragmentContext(), count));
         }
     }
 }

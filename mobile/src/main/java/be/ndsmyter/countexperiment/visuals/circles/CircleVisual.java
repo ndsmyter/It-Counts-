@@ -2,7 +2,6 @@ package be.ndsmyter.countexperiment.visuals.circles;
 
 import android.util.Log;
 import android.view.ViewGroup;
-
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
 import be.ndsmyter.countexperiment.common.Listener;
@@ -38,7 +37,15 @@ public class CircleVisual extends AbstractVisualization implements Listener {
 
     @Override
     public void notifyChanged() {
-        int currentCount = getModel().getCount();
+        FragmentModel model = getModel();
+        if (model == null) {
+            Log.e(TAG, "The model is null ?");
+            return;
+        }
+        if (getView() == null) {
+            model.removeListener(this);
+        }
+        int currentCount = model.getCount();
         if (countShowing != currentCount) {
             // Only redraw the view if the count has changed
             countShowing = currentCount;
@@ -46,6 +53,9 @@ public class CircleVisual extends AbstractVisualization implements Listener {
         }
     }
 
+    /**
+     * Update the view.
+     */
     private void updateView() {
         // Do something fancy to update the view
         Log.i(TAG, "The value should show " + countShowing);
@@ -54,7 +64,7 @@ public class CircleVisual extends AbstractVisualization implements Listener {
         if (count > 0) {
             ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
             viewGroup.removeAllViews();
-            viewGroup.addView(new CircleDrawableView(getActivity(), count));
+            viewGroup.addView(new CircleDrawableView(getFragmentContext(), count));
         }
     }
 }
