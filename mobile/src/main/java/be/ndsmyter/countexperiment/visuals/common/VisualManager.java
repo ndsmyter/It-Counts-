@@ -1,6 +1,9 @@
 package be.ndsmyter.countexperiment.visuals.common;
 
 import android.util.Log;
+
+import be.ndsmyter.countexperiment.visuals.circles.CircleVisual;
+import be.ndsmyter.countexperiment.visuals.lines.LinesVisual;
 import be.ndsmyter.countexperiment.visuals.squares.SquareVisual;
 import be.ndsmyter.countexperiment.visuals.tally.TallyVisual;
 
@@ -22,6 +25,8 @@ public class VisualManager {
         visualizations = new ArrayList<VisualElement>();
         visualizations.add(new VisualElement(SquareVisual.class, new SquareVisual().getName()));
         visualizations.add(new VisualElement(TallyVisual.class, new TallyVisual().getName()));
+        visualizations.add(new VisualElement(CircleVisual.class, new CircleVisual().getName()));
+        visualizations.add(new VisualElement(LinesVisual.class, new LinesVisual().getName()));
     }
 
     /**
