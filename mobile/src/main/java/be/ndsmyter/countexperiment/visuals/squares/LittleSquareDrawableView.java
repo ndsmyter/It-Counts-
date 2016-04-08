@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -29,6 +30,10 @@ public class LittleSquareDrawableView extends View {
         nRow = (int) Math.ceil(count / 10);
         nColLastRow = count % 10;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
     }
 
     @Override
