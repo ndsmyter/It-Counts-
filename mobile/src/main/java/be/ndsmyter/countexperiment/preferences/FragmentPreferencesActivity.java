@@ -24,16 +24,25 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
 
     public static final String KEY_COUNTER_NAME = "counterName";
 
-    public static final String KEY_SCREEN_TOUCH = "screenTouch";
+    public static final String KEY_SCREEN_TOUCH = "pref_touch_value";
+    public static final String KEY_SCREEN_TOUCH_ACTION = "pref_touch_action";
+    public static final String KEY_SCREEN_TOUCH_USE = "pref_use_touch";
 
-    public static final String KEY_VOLUME_UP = "volumeUp";
+    public static final String KEY_VOLUME_UP = "pref_volume_up_value";
+    public static final String KEY_VOLUME_UP_ACTION = "pref_volume_up_action";
+    public static final String KEY_VOLUME_UP_USE = "pref_use_volume_up";
 
-    public static final String KEY_VOLUME_DOWN = "volumeDown";
+    public static final String KEY_VOLUME_DOWN = "pref_volume_down_value";
+    public static final String KEY_VOLUME_DOWN_ACTION = "pref_volume_down_action";
+    public static final String KEY_VOLUME_DOWN_USE = "pref_use_volume_down";
 
     public static final String KEY_VISUALIZATION = "visualization";
 
     private static final String[] KEYS =
-            new String[]{KEY_COUNTER_NAME, KEY_SCREEN_TOUCH, KEY_VOLUME_UP, KEY_VOLUME_DOWN, KEY_VISUALIZATION};
+            new String[]{KEY_COUNTER_NAME,
+                    KEY_SCREEN_TOUCH, KEY_VOLUME_UP, KEY_VOLUME_DOWN,
+                    KEY_SCREEN_TOUCH_ACTION, KEY_VOLUME_UP_ACTION, KEY_VOLUME_DOWN_ACTION,
+                    KEY_VISUALIZATION};
 
     private FragmentModel fragmentModel;
 
@@ -45,7 +54,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
         super.onCreate(savedInstanceState);
         setupActionBar();
 
-        String title = "", touched = "";
+        String title; //= "";//, touched = "";
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -55,7 +64,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
                 return;
             }
             title = fragmentModel.getTitle();
-            touched = "" + fragmentModel.getTouchedPoints();
+            //touched = "" + fragmentModel.getTouchedPoints();
 
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             prefs.registerOnSharedPreferenceChangeListener(this);
@@ -63,10 +72,16 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
 
             // Update preferences
             editor.putString(KEY_COUNTER_NAME, title);
-            editor.putString(KEY_SCREEN_TOUCH, touched);
+
+            editor.putString(KEY_SCREEN_TOUCH, "" + fragmentModel.getTouchedPoints());
+            editor.putBoolean(KEY_SCREEN_TOUCH_USE, fragmentModel.getUseTouch());
             editor.putString(KEY_VOLUME_UP, "" + fragmentModel.getVolumeUpPoints());
+            editor.putBoolean(KEY_SCREEN_TOUCH_USE, fragmentModel.getUseVolumeUp());
             editor.putString(KEY_VOLUME_DOWN, "" + fragmentModel.getVolumeDownPoints());
+            editor.putBoolean(KEY_SCREEN_TOUCH_USE, fragmentModel.getUseTouch());
+
             editor.putString(KEY_VISUALIZATION, "" + fragmentModel.getVisualizationIndex());
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                 editor.apply();
             } else {
@@ -124,11 +139,36 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
                 editor.putString(id, value);
                 updateSummary(key, R.string.pref_desc_volume_up, value);
                 break;
+            case KEY_SCREEN_TOUCH_USE:
+                editor.putBoolean(id, prefs.getBoolean(key, fragmentModel.getUseTouch()));
+                break;
+            case KEY_VOLUME_DOWN_USE:
+                editor.putBoolean(id, prefs.getBoolean(key, fragmentModel.getUseVolumeDown()));
+                break;
+            case KEY_VOLUME_UP_USE:
+                editor.putBoolean(id, prefs.getBoolean(key, fragmentModel.getUseVolumeUp()));
+                break;
+            case KEY_SCREEN_TOUCH_ACTION:
+                value = prefs.getString(key, "" + fragmentModel.getTouchAction());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_action_touch, value);
+                break;
+            case KEY_VOLUME_DOWN_ACTION:
+                value = prefs.getString(key, "" + fragmentModel.getVolumeDownAction());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_action_volume_down, value);
+                break;
+            case KEY_VOLUME_UP_ACTION:
+                value = prefs.getString(key, "" + fragmentModel.getVolumeUpAction());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_action_volume_up, value);
+                break;
             case KEY_VISUALIZATION:
                 value = prefs.getString(key, "" + fragmentModel.getVisualizationIndex());
                 editor.putString(id, value);
                 updateSummary(key, R.string.pref_desc_visualization, VisualManager.getVisualElement(value).getName());
             default:
+                Log.w("CE","Key "+key+" not handled in fragment preferences activity");
                 break;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {

@@ -1,5 +1,7 @@
 package be.ndsmyter.countexperiment;
 
+import android.util.Log;
+
 import be.ndsmyter.countexperiment.common.ListenerModel;
 import be.ndsmyter.countexperiment.visuals.common.VisualManager;
 import be.ndsmyter.countexperiment.visuals.common.Visualization;
@@ -18,17 +20,22 @@ public class FragmentModel extends ListenerModel implements Serializable {
 
     private String title;
 
-    private int touched;
+    private boolean useTouch = true;
+    private int touchedPoints = 1;
+    private String touchAction = "Add x";
+    //private int touched;
 
+    private boolean useVolumeUp = true;
+    private int volumeUpPoints = 1;
+    private String volumeUpAction = "Add x";
     private int volumeUps;
 
+    private boolean useVolumeDown = true;
+    private int volumeDownPoints = -1;
+    private String volumeDownAction = "Add x";
     private int volumeDowns;
 
-    private int touchedPoints = 1;
-
-    private int volumeUpPoints = 10;
-
-    private int volumeDownPoints = 100;
+    private int count = 0;
 
     private int visualization;
 
@@ -44,7 +51,8 @@ public class FragmentModel extends ListenerModel implements Serializable {
     }
 
     public int getCount() {
-        return touched * touchedPoints + volumeUps * volumeUpPoints + volumeDowns * volumeDownPoints;
+        return count;
+        //return touched * touchedPoints + volumeUps * volumeUpPoints + volumeDowns * volumeDownPoints;
     }
 
     public String getTitle() {
@@ -56,45 +64,109 @@ public class FragmentModel extends ListenerModel implements Serializable {
         notifyChanged();
     }
 
-    public int getTouched() {
-        return touched;
+    public boolean getUseTouch() {
+        return useTouch;
+    }
+
+    public void setUseTouch(boolean useTouch) {
+        this.useTouch = useTouch;
+        notifyChanged();
+    }
+
+    public String getTouchAction() {
+        return touchAction;
+    }
+
+    public void setTouchAction(String touchAction) {
+        this.touchAction = touchAction;
+        notifyChanged();
     }
 
     public void addTouched() {
-        this.touched++;
+        Log.i("CE", "Process touch " + touchAction.replaceAll("x", "" + touchedPoints));
+        switch (touchAction){
+            case "Add x":
+                count += touchedPoints; //this.touched++;
+                break;
+            case "Multiply with x":
+                count *= touchedPoints;
+                break;
+            case "Reset to x":
+                count = touchedPoints;
+                break;
+        }
         notifyChanged();
     }
 
-    public void setTouched(int touched) {
-        this.touched = touched;
+    public boolean getUseVolumeUp() {
+        return useVolumeUp;
+    }
+
+    public void setUseVolumeUp(boolean useVolumeUp) {
+        this.useVolumeUp = useVolumeUp;
         notifyChanged();
     }
 
-    public int getVolumeUps() {
-        return volumeUps;
+    public String getVolumeUpAction() {
+        return volumeUpAction;
+    }
+
+    public void setVolumeUpAction(String volumeUpAction) {
+        this.volumeUpAction = volumeUpAction;
+        notifyChanged();
     }
 
     public void addVolumeUp() {
-        this.volumeUps++;
+        Log.i("CE", "Process volume up " + volumeUpAction.replaceAll("x", ""+volumeUpPoints));
+        if(useVolumeUp){
+            switch (volumeUpAction){
+                case "Add x":
+                    count += volumeUpPoints;
+                    break;
+                case "Multiply with x":
+                    count *= volumeUpPoints;
+                    break;
+                case "Reset to x":
+                    count = volumeUpPoints;
+                    break;
+            }
+        }
         notifyChanged();
     }
 
-    public void setVolumeUps(int volumeUps) {
-        this.volumeUps = volumeUps;
+    public boolean getUseVolumeDown() {
+        return useVolumeDown;
+    }
+
+    public void setUseVolumeDown(boolean useVolumeDown) {
+        this.useVolumeDown = useVolumeDown;
         notifyChanged();
     }
 
-    public int getVolumeDowns() {
-        return volumeDowns;
+    public String getVolumeDownAction() {
+        return volumeDownAction;
+    }
+
+    public void setVolumeDownAction(String volumeDownAction) {
+        this.volumeDownAction = volumeDownAction;
+        notifyChanged();
     }
 
     public void addVolumeDown() {
-        this.volumeDowns++;
-        notifyChanged();
-    }
-
-    public void setVolumeDowns(int keyDowns) {
-        this.volumeDowns = keyDowns;
+        Log.i("CE", "Process volume down " + volumeDownAction.replaceAll("x", ""+volumeDownPoints));
+        if(useVolumeDown) {
+            switch (volumeDownAction) {
+                case "Add x":
+                    count += volumeDownPoints;
+                    break;
+                case "Multiply with x":
+                    count *= volumeDownPoints;
+                    break;
+                case "Reset to x":
+                    count = volumeDownPoints;
+                    break;
+            }
+        }
         notifyChanged();
     }
 

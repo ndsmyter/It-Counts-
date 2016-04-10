@@ -9,14 +9,38 @@
 	<string name="empty_visualization">Empty Visualization</string>
 	<string name="debug_section_label">Section Label</string>
 	<string name="debug_count_label">0</string>
-	<string name="pref_title_visualization">Visualization</string>
-	<string name="pref_title_volume_down">Volume Down</string>
-	<string name="pref_title_volume_up">Volume Up</string>
-	<string name="pref_title_touch">Screen touch</string>
+
 	<string name="pref_title_name">Counter Name</string>
 	<string name="pref_desc_name">The name of the counter</string>
-	<string name="pref_desc_touch">How much will be added on a screen touch</string>
-	<string name="pref_desc_volume_up">How much will be added on volume up</string>
-	<string name="pref_desc_volume_down">How much will be added on volume down</string>
 	<string name="pref_desc_visualization">The visualization for the counter</string>
+
+	<string name="pref_title_visualization">Visualization</string>
+
+	<string name="pref_title_touch">Screen touch</string>
+	<string name="pref_desc_touch">Use screen touch to update counter</string>
+	<string name="pref_title_action_touch">Screen touch operation</string>
+	<string name="pref_desc_action_touch">Operation on screen touch</string>
+	<string name="pref_title_value_touch">Screen touch value</string>
+	<string name="pref_desc_value_touch">Value x used on screen touch</string>
+
+
+	<string name="pref_title_volume_up">Volume up</string>
+	<string name="pref_desc_volume_up">Use volume up to update counter</string>
+	<string name="pref_title_action_volume_up">Volume up operation</string>
+	<string name="pref_desc_action_volume_up">Operation on volume up</string>
+	<string name="pref_title_value_volume_up">Volume up value</string>
+	<string name="pref_desc_value_volume_up">Value x used on volume up</string>
+
+
+
+	<string name="pref_title_volume_down">Volume down</string>
+	<string name="pref_desc_volume_down">Use volume down to update counter</string>
+	<string name="pref_title_action_volume_down">Volume down operation</string>
+	<string name="pref_desc_action_volume_down">Operation on volume down</string>
+	<string name="pref_title_value_volume_down">Volume down value</string>
+	<string name="pref_desc_value_volume_down">Value x used on volume down</string>
+
+	<string name="pref_default_action">Add x</string>
+	<string name="pref_desc_value">Choose the value</string>
+
 </resources>

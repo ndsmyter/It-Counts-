@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_action_entries">
+        <item>Add x</item>
+        <item>Multiply with x</item>
+        <item>Reset to x</item>
+    </string-array>
+    <string-array name="pref_action_values">
+        <item>Add x</item>
+        <item>Multiply with x</item>
+        <item>Reset to x</item>
+    </string-array>
+
+
+</resources>

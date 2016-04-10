@@ -3,23 +3,78 @@
 	<EditTextPreference android:title="@string/pref_title_name"
 						android:key="counterName"
 						android:summary="@string/pref_desc_name"/>
-	<PreferenceCategory android:title="@string/pref_cat_buttons">
-		<EditTextPreference android:title="@string/pref_title_touch"
-							android:inputType="numberDecimal|numberSigned"
-							android:summary="@string/pref_desc_touch"
-							android:key="screenTouch"/>
-		<EditTextPreference android:title="@string/pref_title_volume_up"
-							android:inputType="numberDecimal|numberSigned"
-							android:summary="@string/pref_desc_volume_up"
-							android:key="volumeUp"/>
-		<EditTextPreference android:title="@string/pref_title_volume_down"
-							android:inputType="numberDecimal|numberSigned"
-							android:summary="@string/pref_desc_volume_down"
-							android:key="volumeDown"/>
-	</PreferenceCategory>
+
 	<ListPreference android:title="@string/pref_title_visualization"
-					android:summary="@string/pref_desc_visualization"
-					android:key="visualization"/>
+		android:summary="@string/pref_desc_visualization"
+		android:key="visualization"/>
+	<PreferenceCategory android:title="@string/pref_cat_buttons">
+		<!--<PreferenceCategory android:title="@string/pref_title_touch">-->
+			<CheckBoxPreference
+				android:title="@string/pref_title_touch"
+				android:summary="@string/pref_desc_touch"
+				android:defaultValue="true"
+				android:key="pref_use_touch"/>
+			<ListPreference
+				android:dependency="pref_use_touch"
+				android:title="@string/pref_title_action_touch"
+				android:summary="@string/pref_desc_action_touch"
+				android:dialogTitle="@string/pref_title_action_touch"
+				android:entries="@array/pref_action_entries"
+				android:entryValues="@array/pref_action_values"
+				android:defaultValue="@string/pref_default_action"
+				android:key="pref_touch_action"/>
+			<EditTextPreference
+				android:dependency="pref_use_touch"
+				android:title="@string/pref_title_value_touch"
+				android:summary="@string/pref_desc_value_touch"
+				android:inputType="numberDecimal|numberSigned"
+				android:key="pref_touch_value"/>
+		<!--</PreferenceCategory>
+		<PreferenceCategory android:title="@string/pref_title_volume_up">-->
+			<CheckBoxPreference
+				android:title="@string/pref_title_volume_up"
+				android:summary="@string/pref_desc_volume_up"
+				android:defaultValue="true"
+				android:key="pref_use_volume_up"/>
+			<ListPreference
+				android:dependency="pref_use_volume_up"
+				android:title="@string/pref_title_action_volume_up"
+				android:summary="@string/pref_desc_action_volume_up"
+				android:dialogTitle="@string/pref_title_action_volume_up"
+				android:entries="@array/pref_action_entries"
+				android:entryValues="@array/pref_action_values"
+				android:defaultValue="@string/pref_default_action"
+				android:key="pref_volume_up_action"/>
+			<EditTextPreference
+				android:dependency="pref_use_volume_up"
+				android:title="@string/pref_title_value_volume_up"
+				android:summary="@string/pref_desc_value_volume_up"
+				android:inputType="numberDecimal|numberSigned"
+				android:key="pref_volume_up_value"/>
+		<!--</PreferenceCategory>
+		<PreferenceCategory android:title="@string/pref_title_volume_down">-->
+			<CheckBoxPreference
+				android:title="@string/pref_title_volume_down"
+				android:summary="@string/pref_desc_volume_down"
+				android:defaultValue="true"
+				android:key="pref_use_volume_down"/>
+			<ListPreference
+				android:dependency="pref_use_volume_down"
+				android:title="@string/pref_title_action_volume_down"
+				android:summary="@string/pref_desc_action_volume_down"
+				android:dialogTitle="@string/pref_title_action_volume_down"
+				android:entries="@array/pref_action_entries"
+				android:entryValues="@array/pref_action_values"
+				android:defaultValue="@string/pref_default_action"
+				android:key="pref_volume_down_action"/>
+			<EditTextPreference
+				android:dependency="pref_use_volume_down"
+				android:title="@string/pref_title_value_volume_down"
+				android:summary="@string/pref_desc_value_volume_down"
+				android:inputType="numberDecimal|numberSigned"
+				android:key="pref_volume_down_value"/>
+		<!--/PreferenceCategory>-->
+	</PreferenceCategory>
 	<CheckBoxPreference android:title="Allow only integers"
 						android:defaultValue="true"
 						android:summary="Allow only integers"

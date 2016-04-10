@@ -117,15 +117,37 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         String id = "-" + fragmentModel.getUniqueId();
         fragmentModel.setTitle(
                 prefs.getString(FragmentPreferencesActivity.KEY_COUNTER_NAME + id, fragmentModel.getTitle()));
+
+        fragmentModel.setUseTouch(
+                prefs.getBoolean(FragmentPreferencesActivity.KEY_SCREEN_TOUCH_USE + id,
+                        fragmentModel.getUseTouch()));
         fragmentModel.setTouchedPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_SCREEN_TOUCH + id,
-                                "" + fragmentModel.getTouchedPoints())));
+                        "" + fragmentModel.getTouchedPoints())));
+        fragmentModel.setTouchAction(
+                prefs.getString(FragmentPreferencesActivity.KEY_SCREEN_TOUCH_ACTION + id,
+                        "" + fragmentModel.getTouchAction()));
+
+        fragmentModel.setUseVolumeUp(
+                prefs.getBoolean(FragmentPreferencesActivity.KEY_VOLUME_UP_USE + id,
+                        fragmentModel.getUseVolumeUp()));
         fragmentModel.setVolumeUpPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_UP + id,
-                                "" + fragmentModel.getVolumeUpPoints())));
+                        "" + fragmentModel.getVolumeUpPoints())));
+        fragmentModel.setVolumeUpAction(
+                prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_UP_ACTION + id,
+                        "" + fragmentModel.getVolumeUpAction()));
+
+        fragmentModel.setUseVolumeDown(
+                prefs.getBoolean(FragmentPreferencesActivity.KEY_VOLUME_DOWN_USE + id,
+                        fragmentModel.getUseVolumeDown()));
         fragmentModel.setVolumeDownPoints(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_DOWN + id,
-                                "" + fragmentModel.getVolumeDownPoints())));
+                        "" + fragmentModel.getVolumeDownPoints())));
+        fragmentModel.setVolumeDownAction(
+                prefs.getString(FragmentPreferencesActivity.KEY_VOLUME_DOWN_ACTION + id,
+                        "" + fragmentModel.getVolumeDownAction()));
+
         fragmentModel.setVisualization(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VISUALIZATION + id,
                                 "" + fragmentModel.getVisualizationIndex())));
