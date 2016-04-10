@@ -150,7 +150,11 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
 
         fragmentModel.setVisualization(Integer.parseInt(
                 prefs.getString(FragmentPreferencesActivity.KEY_VISUALIZATION + id,
-                                "" + fragmentModel.getVisualizationIndex())));
+                        "" + fragmentModel.getVisualizationIndex())));
+
+        fragmentModel.setColor(
+                prefs.getString(FragmentPreferencesActivity.KEY_COLOR + id,
+                        fragmentModel.getColor()));
     }
 
     /**

@@ -7,6 +7,11 @@
 	<ListPreference android:title="@string/pref_title_visualization"
 		android:summary="@string/pref_desc_visualization"
 		android:key="visualization"/>
+
+	<ListPreference android:title="@string/pref_title_color"
+		android:summary="@string/pref_desc_color"
+		android:key="color"/>
+
 	<PreferenceCategory android:title="@string/pref_cat_buttons">
 		<!--<PreferenceCategory android:title="@string/pref_title_touch">-->
 			<CheckBoxPreference

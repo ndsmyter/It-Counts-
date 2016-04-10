@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.util.Log;
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
+import be.ndsmyter.countexperiment.common.Util;
 import be.ndsmyter.countexperiment.visuals.common.VisualManager;
 
 import java.util.List;
@@ -37,12 +38,13 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
     public static final String KEY_VOLUME_DOWN_USE = "pref_use_volume_down";
 
     public static final String KEY_VISUALIZATION = "visualization";
+    public static final String KEY_COLOR = "color";
 
     private static final String[] KEYS =
             new String[]{KEY_COUNTER_NAME,
                     KEY_SCREEN_TOUCH, KEY_VOLUME_UP, KEY_VOLUME_DOWN,
                     KEY_SCREEN_TOUCH_ACTION, KEY_VOLUME_UP_ACTION, KEY_VOLUME_DOWN_ACTION,
-                    KEY_VISUALIZATION};
+                    KEY_VISUALIZATION, KEY_COLOR};
 
     private FragmentModel fragmentModel;
 
@@ -81,6 +83,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             editor.putBoolean(KEY_SCREEN_TOUCH_USE, fragmentModel.getUseTouch());
 
             editor.putString(KEY_VISUALIZATION, "" + fragmentModel.getVisualizationIndex());
+            editor.putString(KEY_COLOR, fragmentModel.getColor());
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                 editor.apply();
@@ -167,8 +170,12 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
                 value = prefs.getString(key, "" + fragmentModel.getVisualizationIndex());
                 editor.putString(id, value);
                 updateSummary(key, R.string.pref_desc_visualization, VisualManager.getVisualElement(value).getName());
+            case KEY_COLOR:
+                value = prefs.getString(key, "" + fragmentModel.getColor());
+                editor.putString(id, value);
+                updateSummary(key, R.string.pref_desc_color, value);
             default:
-                Log.w("CE","Key "+key+" not handled in fragment preferences activity");
+                Log.w("CE", "Key " + key + " not handled in fragment preferences activity");
                 break;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
@@ -206,6 +213,7 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             addPreferencesFromResource(R.xml.fragment_preferences);
 
             addVisualizations();
+            addColors();
             initSummary();
         }
 
@@ -228,6 +236,13 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             preference.setEntryValues(entryValues);
         }
 
+        private void addColors() {
+            String[] entries = Util.getColorSchemeOptions();
+            String[] entryValues = Util.getColorSchemeOptions();
+            ListPreference preference = (ListPreference) findPreference(KEY_COLOR);
+            preference.setEntries(entries);
+            preference.setEntryValues(entryValues);
+        }
         /**
          * Initialize the summary for the preferences.
          */

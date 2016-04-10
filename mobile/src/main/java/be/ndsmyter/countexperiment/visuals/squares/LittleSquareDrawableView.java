@@ -8,6 +8,8 @@ import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import be.ndsmyter.countexperiment.common.Util;
+
 /**
  * @author Sofie Van Gassen
  * @since 2 apr 2016
@@ -24,9 +26,10 @@ public class LittleSquareDrawableView extends View {
             {"#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB", "#5C6BC0", "#3F51B5", "#3949AB", "#303F9F", "#283593",
                     "#1A237E"};
 
-    public LittleSquareDrawableView(Context context, int count) {
+    public LittleSquareDrawableView(Context context,int count, String color) {
         super(context);
         this.count = count;
+        this.colors = Util.getColorScheme(color);
         nRow = (int) Math.ceil(count / 10);
         nColLastRow = count % 10;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);

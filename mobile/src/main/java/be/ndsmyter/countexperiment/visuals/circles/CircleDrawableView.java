@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import be.ndsmyter.countexperiment.common.Util;
+
 /**
  * @author Sofie Van Gassen
  * @since 2 apr 2016
@@ -25,9 +27,10 @@ public class CircleDrawableView extends View {
             {"#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB", "#5C6BC0", "#3F51B5", "#3949AB", "#303F9F", "#283593",
                     "#1A237E"};
 
-    public CircleDrawableView(Context context, int count) {
+    public CircleDrawableView(Context context, int count, String color) {
         super(context);
         this.count = count;
+        this.colors = Util.getColorScheme(color);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -51,10 +54,10 @@ public class CircleDrawableView extends View {
         paint.setStyle(Paint.Style.FILL);
         Log.i("CE Circle", "" + circleDiff+" * "+count);
         for (int i = 0; i < count; i++) {
-            paint.setColor(Color.parseColor(colors[(i * 13) % 10]));
             Log.i("CE Circle", "" + (i * circleDiff) +","+
                     (min - i * circleDiff) +" -> " + colors[(i * 13) % 10]);
 
+            paint.setColor(Color.parseColor(colors[(i * 13) % 10]));
             canvas.drawOval(i * circleDiff,
                     i * circleDiff,
                     min - i * circleDiff,

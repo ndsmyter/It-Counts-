@@ -38,6 +38,7 @@ public class FragmentModel extends ListenerModel implements Serializable {
     private int count = 0;
 
     private int visualization;
+    private String color = "Indigo";
 
     private static int uniqueIds;
 
@@ -226,5 +227,14 @@ public class FragmentModel extends ListenerModel implements Serializable {
      */
     public void setVisualization(int visualization) {
         this.visualization = visualization;
+    }
+
+
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+        notifyChanged();
     }
 }

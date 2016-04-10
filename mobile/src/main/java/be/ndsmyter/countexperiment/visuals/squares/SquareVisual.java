@@ -14,6 +14,7 @@ import be.ndsmyter.countexperiment.visuals.common.AbstractVisualization;
 public class SquareVisual extends AbstractVisualization implements Listener {
 
     private int countShowing;
+    private String color;
 
     private static final String TAG = "Square";
 
@@ -26,6 +27,7 @@ public class SquareVisual extends AbstractVisualization implements Listener {
     public void drawOnView() {
         FragmentModel model = getModel();
         countShowing = model.getCount();
+        color = model.getColor();
         updateView();
         model.addListener(this);
     }
@@ -51,6 +53,12 @@ public class SquareVisual extends AbstractVisualization implements Listener {
             countShowing = currentCount;
             updateView();
         }
+        String modelColor = model.getColor();
+        if (!color.equals(modelColor)) {
+            // Only redraw the view if the count has changed
+            color = modelColor;
+            updateView();
+        }
     }
 
     /**
@@ -64,7 +72,7 @@ public class SquareVisual extends AbstractVisualization implements Listener {
         if (count > 0) {
             ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
             viewGroup.removeAllViews();
-            viewGroup.addView(new LittleSquareDrawableView(getFragmentContext(), count));
+            viewGroup.addView(new LittleSquareDrawableView(getFragmentContext(), count,color));
         }
     }
 }

@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 
 import java.util.Random;
 
+import be.ndsmyter.countexperiment.common.Util;
+
 /**
  * @author Sofie Van Gassen
  * @since 2 apr 2016
@@ -26,9 +28,10 @@ public class LinesDrawableView extends View {
             {"#E8EAF6", "#C5CAE9", "#9FA8DA", "#7986CB", "#5C6BC0", "#3F51B5", "#3949AB", "#303F9F", "#283593",
                     "#1A237E"};
 
-    public LinesDrawableView(Context context, int count) {
+    public LinesDrawableView(Context context,int count, String color) {
         super(context);
         this.count = count;
+        this.colors = Util.getColorScheme(color);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         if (Build.VERSION.SDK_INT >= 11) {
@@ -40,7 +43,7 @@ public class LinesDrawableView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         parentWidth = MeasureSpec.getSize(widthMeasureSpec);
         parentHeight = MeasureSpec.getSize(heightMeasureSpec);
-        maxCoord = Math.max(parentWidth,parentHeight);
+        maxCoord = Math.min(parentWidth,parentHeight);
         this.setMeasuredDimension(parentWidth, parentHeight); //nRow*blockSize); //
         this.setLayoutParams(new LinearLayout.LayoutParams(parentWidth, parentHeight)); //nRow*blockSize)); //
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
