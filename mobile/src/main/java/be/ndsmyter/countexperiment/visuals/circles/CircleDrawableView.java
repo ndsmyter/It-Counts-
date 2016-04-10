@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,7 +16,7 @@ import android.widget.LinearLayout;
 public class CircleDrawableView extends View {
     //private ShapeDrawable mDrawable;
 
-    int count, parentWidth,parentHeight,max,circleDiff;
+    int count, parentWidth,parentHeight, min,circleDiff;
 
     private Paint paint;
 
@@ -38,8 +39,8 @@ public class CircleDrawableView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         parentWidth = MeasureSpec.getSize(widthMeasureSpec);
         parentHeight = MeasureSpec.getSize(heightMeasureSpec);
-        max=Math.max(parentHeight,parentWidth);
-        circleDiff = max/count;
+        min = Math.min(parentHeight,parentWidth);
+        circleDiff = (int)Math.floor((min/2)/count);
         this.setMeasuredDimension(parentWidth, parentHeight); //nRow*blockSize); //
         this.setLayoutParams(new LinearLayout.LayoutParams(parentWidth, parentHeight)); //nRow*blockSize)); //
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -48,13 +49,16 @@ public class CircleDrawableView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         paint.setStyle(Paint.Style.FILL);
+        Log.i("CE Circle", "" + circleDiff+" * "+count);
         for (int i = 0; i < count; i++) {
             paint.setColor(Color.parseColor(colors[(i * 13) % 10]));
+            Log.i("CE Circle", "" + (i * circleDiff) +","+
+                    (min - i * circleDiff) +" -> " + colors[(i * 13) % 10]);
 
-            canvas.drawOval(0 + i *circleDiff,
-                    0 + i * circleDiff,
-                    max - i * circleDiff,
-                    max-i*circleDiff, paint);
+            canvas.drawOval(i * circleDiff,
+                    i * circleDiff,
+                    min - i * circleDiff,
+                    min - i * circleDiff, paint);
         }
     }
 }
