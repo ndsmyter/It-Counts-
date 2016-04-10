@@ -23,17 +23,19 @@ public class FragmentModel extends ListenerModel implements Serializable {
     private boolean useTouch = true;
     private int touchedPoints = 1;
     private String touchAction = "Add x";
-    //private int touched;
+
 
     private boolean useVolumeUp = true;
     private int volumeUpPoints = 1;
     private String volumeUpAction = "Add x";
-    private int volumeUps;
 
     private boolean useVolumeDown = true;
     private int volumeDownPoints = -1;
     private String volumeDownAction = "Add x";
-    private int volumeDowns;
+
+    private boolean useShake = true;
+    private int shakePoints = 0;
+    private String shakeAction = "Reset to x";
 
     private int count = 0;
 
@@ -128,6 +130,24 @@ public class FragmentModel extends ListenerModel implements Serializable {
                     break;
                 case "Reset to x":
                     count = volumeUpPoints;
+                    break;
+            }
+        }
+        notifyChanged();
+    }
+
+    public void addShaken() {
+        Log.i("CE", "Process shaken " + shakeAction.replaceAll("x", ""+shakePoints));
+        if(useShake){
+            switch (shakeAction){
+                case "Add x":
+                    count += shakePoints;
+                    break;
+                case "Multiply with x":
+                    count *= shakePoints;
+                    break;
+                case "Reset to x":
+                    count = shakePoints;
                     break;
             }
         }

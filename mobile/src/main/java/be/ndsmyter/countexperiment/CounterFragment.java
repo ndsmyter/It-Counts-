@@ -1,7 +1,10 @@
 package be.ndsmyter.countexperiment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -33,6 +36,13 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
     private int currentVisualization = -1;
 
     /**
+     * Shake detector
+     */
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
+
+    /**
      * Returns a new instance of this fragment for the given section number.
      */
     public static CounterFragment newInstance(FragmentModel fragmentModel) {
@@ -48,6 +58,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
      * like this. The methods setArguments and getArguments should be used instead to pass arguments.
      */
     public CounterFragment() {
+
     }
 
     @Override
@@ -70,7 +81,28 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
             }
         });
 
+        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake(int count) {
+                onShake(count);
+            }
+        });
+
         return rootView;
+    }
+
+    private void onShake(int count) {
+				/*
+				 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+        Log.i(TAG, "Phone shaken");
+        this.fragmentModel.addShaken();
     }
 
     @Override
@@ -79,6 +111,12 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         update();
     }
 
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
+    }
     /**
      * Wrapper method for all the update methods.
      */
@@ -105,6 +143,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
     @Override
     public void onResume() {
         super.onResume();
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
         readPreferences();
         update();
     }
