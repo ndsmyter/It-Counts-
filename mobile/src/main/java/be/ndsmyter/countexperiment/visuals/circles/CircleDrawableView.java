@@ -29,7 +29,7 @@ public class CircleDrawableView extends View {
 
     public CircleDrawableView(Context context, int count, String color) {
         super(context);
-        this.count = count;
+        this.count = Math.abs(count);
         this.colors = Util.getColorScheme(color);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -40,10 +40,12 @@ public class CircleDrawableView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int margin = (int) (2*20 * getResources().getDisplayMetrics().density);
+        parentWidth = getRootView().getWidth()-margin;// MeasureSpec.getSize(widthMeasureSpec);
+        parentHeight = getRootView().getWidth()-margin; //MeasureSpec.getSize(heightMeasureSpec);
         min = Math.min(parentHeight,parentWidth);
-        circleDiff = (int)Math.floor((min/2)/count);
+        if(count > 0) circleDiff = (int)Math.floor((min/2)/count);
+        else circleDiff = 0;
         this.setMeasuredDimension(parentWidth, parentHeight); //nRow*blockSize); //
         this.setLayoutParams(new LinearLayout.LayoutParams(parentWidth, parentHeight)); //nRow*blockSize)); //
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

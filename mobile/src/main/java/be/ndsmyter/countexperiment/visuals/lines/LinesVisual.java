@@ -69,10 +69,9 @@ public class LinesVisual extends AbstractVisualization implements Listener {
         Log.i(TAG, "The value should show " + countShowing);
         int count = this.countShowing;
         // Add 1 icon of the count
-        if (count > 0) {
-            ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
-            viewGroup.removeAllViews();
-            viewGroup.addView(new LinesDrawableView(getFragmentContext(), count,color));
-        }
+        ViewGroup viewGroup = (ViewGroup) getRootView().findViewById(R.id.touch_panel);
+        viewGroup.removeAllViews();
+        viewGroup.addView(new LinesDrawableView(getFragmentContext(), count,color));
+
     }
 }

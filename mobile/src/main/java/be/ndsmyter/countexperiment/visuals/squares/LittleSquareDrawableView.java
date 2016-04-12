@@ -28,7 +28,7 @@ public class LittleSquareDrawableView extends View {
 
     public LittleSquareDrawableView(Context context,int count, String color) {
         super(context);
-        this.count = count;
+        this.count = Math.abs(count);
         this.colors = Util.getColorScheme(color);
         nRow = (int) Math.ceil(count / 10);
         nColLastRow = count % 10;
@@ -41,9 +41,10 @@ public class LittleSquareDrawableView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int margin = (int) (2*20 * getResources().getDisplayMetrics().density);
+        int parentWidth = getRootView().getWidth()-margin;
         blockSize = (int) Math.floor(parentWidth / 10);
-        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int parentHeight = blockSize *(nRow+1); //getRootView().getWidth()-margin;
         this.setMeasuredDimension(parentWidth, parentHeight); //nRow*blockSize); //
         this.setLayoutParams(new LinearLayout.LayoutParams(parentWidth, parentHeight)); //nRow*blockSize)); //
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

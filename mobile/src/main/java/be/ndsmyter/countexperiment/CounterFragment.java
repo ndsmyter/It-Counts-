@@ -188,7 +188,7 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
             handled = this.fragmentModel.getUseVolumeDown();
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             this.fragmentModel.addVolumeUp();
-            handled = this.fragmentModel.getUseVolumeDown();
+            handled = this.fragmentModel.getUseVolumeUp();
         }
         return handled;
     }

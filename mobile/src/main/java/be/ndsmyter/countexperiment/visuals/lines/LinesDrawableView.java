@@ -30,7 +30,7 @@ public class LinesDrawableView extends View {
 
     public LinesDrawableView(Context context,int count, String color) {
         super(context);
-        this.count = count;
+        this.count = Math.abs(count);
         this.colors = Util.getColorScheme(color);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
@@ -41,8 +41,9 @@ public class LinesDrawableView extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        parentWidth = MeasureSpec.getSize(widthMeasureSpec);
-        parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        int margin = (int) (2*20 * getResources().getDisplayMetrics().density);
+        parentWidth = getRootView().getWidth()-margin;
+        parentHeight = getRootView().getWidth()-margin;
         maxCoord = Math.min(parentWidth,parentHeight);
         this.setMeasuredDimension(parentWidth, parentHeight); //nRow*blockSize); //
         this.setLayoutParams(new LinearLayout.LayoutParams(parentWidth, parentHeight)); //nRow*blockSize)); //
