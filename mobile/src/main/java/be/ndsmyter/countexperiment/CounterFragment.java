@@ -3,6 +3,7 @@ package be.ndsmyter.countexperiment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 import be.ndsmyter.countexperiment.common.Listener;
 import be.ndsmyter.countexperiment.preferences.FragmentPreferencesActivity;
 
@@ -31,6 +36,10 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
     private FragmentModel fragmentModel;
 
     private int currentVisualization = -1;
+
+    private SoundMeter soundMeter;
+    private Timer timer;
+    final Handler handler = new Handler();
 
     /**
      * Returns a new instance of this fragment for the given section number.
@@ -73,10 +82,31 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         return rootView;
     }
 
+    public void startTimer() {
+        soundMeter = new SoundMeter();
+        soundMeter.start();
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        double a = soundMeter.getAmplitude();
+                        if (a > 10000) {
+                            Log.i(TAG, "Heard " + a);
+                            fragmentModel.addTouched();
+                        }
+                    }
+                });
+            }
+        }, 1000, 1000);
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
         update();
+        startTimer();
     }
 
     /**
@@ -107,6 +137,27 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
         super.onResume();
         readPreferences();
         update();
+        startTimer();
+    }
+
+    @Override
+    public void onPause(){
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        soundMeter.stop();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop(){
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        soundMeter.stop();
+        super.onStop();
     }
 
     /**
