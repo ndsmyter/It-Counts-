@@ -11,6 +11,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.MenuItem;
+
 import be.ndsmyter.countexperiment.FragmentModel;
 import be.ndsmyter.countexperiment.R;
 import be.ndsmyter.countexperiment.common.Util;
@@ -105,6 +107,18 @@ public class FragmentPreferencesActivity extends AppCompatPreferenceActivity
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /**
      * This method stops fragment injection in malicious applications. Make sure to deny any unknown fragments here.

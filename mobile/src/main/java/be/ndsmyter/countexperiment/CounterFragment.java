@@ -179,15 +179,18 @@ public class CounterFragment extends Fragment implements View.OnClickListener, L
      * Handle the key events.
      *
      * @param keyCode the key code of the key event.
-     * @return true if the event should be propagated upwards (and handled by other classes), false otherwise.
+     * @return If you handled the event, return true. If you want to allow the event to be handled by the next receiver, return false.
      */
     public boolean onKeyDown(int keyCode) {
+        boolean handled = false;
         if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             this.fragmentModel.addVolumeDown();
+            handled = this.fragmentModel.getUseVolumeDown();
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
             this.fragmentModel.addVolumeUp();
+            handled = this.fragmentModel.getUseVolumeDown();
         }
-        return false;
+        return handled;
     }
 
     /**
