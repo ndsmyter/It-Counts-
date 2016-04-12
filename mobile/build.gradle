@@ -11,9 +11,19 @@ android {
     versionCode 1
     versionName "1.0"
   }
+  signingConfigs {
+    myConfig {
+      storeFile file("D:/Applications/Android/ndsmyter.keystore")
+      storePassword "CHANGEIT"
+      keyAlias "ndsmyter"
+      keyPassword "CHANGEIT"
+    }
+  }
   buildTypes {
     release {
-      minifyEnabled false
+      signingConfig signingConfigs.myConfig
+      zipAlignEnabled true
+      minifyEnabled true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
